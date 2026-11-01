@@ -62,6 +62,11 @@ and image editor (§3) map to apps 1–5.
 
 ## 3. Reuse from the owner's repos
 
+**Survey scope:** default branches only (`main`, plus `develop` for dreamengine), read-only, on
+2026-11-01. The owner reports that railstation in particular, and the others too, have many more
+components on other branches. The table below therefore **understates** what is reusable. Each
+host-integration spec (R4, R6, R7) starts with an inventory of all branches of its host.
+
 | Repo | State (2026-11-01) | What we take | What a craft engine replaces there |
 |---|---|---|---|
 | **dreamengine** (plai.cx), `develop` | Mature Rails 8.1. 308 components; 790 Minitest files; Devise; user-owned projects with `ProjectMembership` roles. | `ApplicationComponent` conventions (keyword args, typed props, slots, `fragment_cache`); the `Ui::*` primitives (about 27) as the seed of `craft_ui`; the token pattern (`--plai-*`, `--st-*`); billing ledger patterns (`Wallet`/`WalletEntry` append-only ledger, `UsageReservation`/`UsageEntry`, `GenerationCreditTransaction`, versioned price policies, Stripe webhook/reconcile); MCP server with OAuth (`gem "mcp"`, `app/tools/mcp/`); Studio editor registry (`Studio::Editors`); the agent protocol (one worktree and branch per issue, serial merges); spec-kit skills. | Sequence NLE (`app/services/sequences/`, ffmpeg-subprocess renderer, legacy `Timeline`/EDL exporter) → filmcraft. Compositions (ffmpeg renderer) → effectcraft. Audio mix / Wavelength → soundcraft. `ImageDocument`/`ImageMask` editor → photocraft. Storyboard / webtoon → designcraft (to evaluate). The domain mapping must be verified per app in its spec. |
@@ -195,11 +200,15 @@ This is the biggest single efficiency lever across 13 apps.
 | `Craft::Ledger` / `Craft::LedgerEntry` | append-only credits for server work (exports, renders, AI), following dreamengine's wallet ledger and usage reservations; mosaik's 1 credit = €0.01 cost / €0.02 price fits |
 
 - **Pricing shape:** each app is a subscription item; the suite is a single plan priced below
-  the sum of its parts. Prices and the Stripe tax setup are owner decisions and are not set here.
+  the sum of its parts.
+- **Pricing constraint (owner):** each app, and the bundle, is cheaper than its Adobe Creative
+  Cloud equivalent. Concrete prices are to be announced. The R7 spec looks up current Adobe
+  prices rather than assuming them.
 - **Unit economics:** preview runs on the client, so server cost is mainly storage plus metered
   exports and AI. That keeps a cheap suite plan viable.
-- **Host:** a thin `craftsuite` app based on railstation (auth, Stripe, CMS, legal pages) that
-  mounts all engines plus `craft_saas`.
+- **Host (owner decision):** railstation is the foundation. The SaaS app is built on it (auth,
+  Stripe, CMS, legal pages, and its components across all branches) and mounts all engines plus
+  `craft_saas`. Its product name is open.
 
 ## 6. Estimate
 
@@ -296,9 +305,11 @@ headless `wasm-core` crate (if storytold wants it).
 
 ## 9. Open questions for the owner
 
-See ADR 0002 §6. Additional questions:
+Decisions so far are in ADR 0002 §6. Still open:
 
-1. Prices and tiers for apps and the suite.
-2. Whether railstation becomes the SaaS host (recommended) or the SaaS gets a new repo.
+1. Product names.
+2. Concrete prices; the constraint is cheaper than Adobe CC.
 3. Whether dreamengine's Minitest suite and the RSpec hosts both need contract tests (proposed:
    the gems test with RSpec and ship a Minitest-compatible test helper).
+4. **Forks:** the owner forks the storytold app repos into GenieRobot. This tooling cannot fork
+   or create repositories. The proposed naming follows `filmcraft-rails`: `<app>-rails`.

@@ -1,7 +1,7 @@
 # ADR 0002: A Rails 8 / Hotwire / ViewComponent UI layer on the unchanged Rust engine
 
-- **Status:** proposed. The project owner approved the direction on 2026-11-01 in the planning
-  session. The open items in §6 need a decision before phase R1 starts.
+- **Status:** accepted (2026-11-01, project owner). §6 records the owner's decisions; product
+  names and prices are still open.
 - **Scope:** this fork (`GenieRobot/filmcraft-rails`), and the same pattern for every storytold
   craft app ([docs/rails/suite-plan.md](../rails/suite-plan.md)).
 
@@ -72,12 +72,20 @@ lands about 50 commits a day.
   styled by the host or built from ViewComponents, and has no Hotwire integration. That defeats
   the goal.
 
-## 6. Open items (owner decisions)
+## 6. Owner decisions (2026-11-01)
 
-1. The name of the shared monorepo, and permission to create it (`GenieRobot/craft-rails`
-   proposed).
-2. Fork-local CI provider and runners for precompiled native gems.
-3. Whether to ask storytold for upstream acceptance of structured parameter schemas and a
-   headless `wasm-core` crate, or to carry them in the fork.
-4. Product names for the SaaS. Use of the "…Craft" / ArtCraft names commercially has not been
-   checked.
+1. **Shared monorepo:** `GenieRobot/craft-rails`, approved. The owner creates the empty repo,
+   because this tooling cannot create repositories.
+2. **CI:** fork-local GitHub Actions, delegated to the implementer. Precompiled native gems for
+   linux x86_64 / aarch64 are cross-compiled with rb-sys. macOS (arm64, x86_64) and Windows build
+   on GitHub-hosted runners. The exact runner labels and action versions are fixed and verified
+   in R0. This replaces upstream's "craft-common-actions only" rule for the Rails layer of the
+   fork only.
+3. **Upstream proposals** (structured parameter schemas, headless `wasm-core`): later. They stay
+   fork-local until then.
+4. **SaaS product names:** open. Different names are possible. Use neutral working names until
+   decided.
+5. **Prices and tiers:** to be announced. The constraint is cheaper than the Adobe Creative Cloud
+   equivalents, per app and for the bundle. No Adobe price is recorded here until it has been
+   looked up.
+6. **SaaS host:** railstation is the foundation.

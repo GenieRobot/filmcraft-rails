@@ -47,6 +47,9 @@ Shared upstream libraries:
 
 Every app pins storytold forks of egui and winit. Those disappear with the UI.
 
+**Owner decision (2026-11-01):** the shared libraries are used from upstream as they are. One is
+forked only when a change to it becomes necessary, and that need is recorded as its own issue.
+
 **Ordering rationale.** Apps are grouped into families so that each family's interactive surface
 is built once:
 
